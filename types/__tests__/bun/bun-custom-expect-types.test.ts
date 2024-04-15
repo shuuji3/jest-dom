@@ -6,17 +6,19 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
-import * as matchers from '../../matchers'
+import {expect} from 'bun:test'
+import * as matchersStandalone from '../../matchers-standalone'
+import * as originalMatchers from '../../matchers'
 
-expect.extend(matchers)
+expect.extend(matchersStandalone)
 
 const element: HTMLElement = document.body
 
 function customExpect(
   _actual: HTMLElement,
 ):
-  | matchers.TestingLibraryMatchers<unknown, void>
-  | matchers.TestingLibraryMatchers<unknown, Promise<void>> {
+  | originalMatchers.TestingLibraryMatchers<unknown, void>
+  | originalMatchers.TestingLibraryMatchers<unknown, Promise<void>> {
   throw new Error('Method not implemented.')
 }
 
@@ -38,8 +40,7 @@ customExpect(element).toHaveAttribute('attr', true)
 customExpect(element).toHaveAttribute('attr', 'yes')
 customExpect(element).toHaveClass()
 customExpect(element).toHaveClass('cls1')
-customExpect(element).toHaveClass(/cls/)
-customExpect(element).toHaveClass('cls1', 'cls2', /cls(3|4)/)
+customExpect(element).toHaveClass('cls1', 'cls2', 'cls3', 'cls4')
 customExpect(element).toHaveClass('cls1', {exact: true})
 customExpect(element).toHaveDisplayValue('str')
 customExpect(element).toHaveDisplayValue(['str1', 'str2'])
@@ -93,8 +94,7 @@ customExpect(element).toHaveErrorMessage(
   expect.stringContaining('Invalid time'),
 )
 
+customExpect(element).toHaveRole('button')
+
 // @ts-expect-error The types accidentally allowed any property by falling back to "any"
 customExpect(element).nonExistentProperty()
-
-// @ts-expect-error
-customExpect(element).toHaveClass(/cls/, {exact: true})

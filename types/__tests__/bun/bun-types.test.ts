@@ -6,8 +6,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
-import {expect} from '@jest/globals'
-import '../../jest-globals'
+import {expect} from 'bun:test'
+import '../../bun'
 
 const element: HTMLElement = document.body
 
